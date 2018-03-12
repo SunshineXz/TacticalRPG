@@ -32,10 +32,10 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-/TacticalRPG/Library/
-/TacticalRPG/Temp/
-/TacticalRPG/Obj/
-/TacticalRPG/Build/
-/TacticalRPG/Builds/
+/TacticalRPG/Library
+\TacticalRPG\Temp\
+\TacticalRPG\Obj\
+\TacticalRPG\Build\
+\TacticalRPG\Builds\
 
 
