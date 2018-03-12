@@ -9,7 +9,8 @@ public class Character : MonoBehaviour {
 
     //Level & Experience
     public int Level = 1;
-    public int Experience;
+    private int CurrExp = 0;
+    private int TotalExp = 0;
     int ExpNextLevel = 10;
 
     //Fighting Stats
@@ -33,18 +34,24 @@ public class Character : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Experience++;
+        AddExperience(1);
         CheckExp();
 	}
 
     private void CheckExp()
     {
-        if(Experience > ExpNextLevel)
+        if(CurrExp >= ExpNextLevel)
         {
-            Experience = Experience % ExpNextLevel;
-            ExpNextLevel *= 2;
+            CurrExp = CurrExp % ExpNextLevel;
+            ExpNextLevel = (int)Math.Round((double)ExpNextLevel * 1.5);
             LevelUp();
         }
+    }
+
+    public void AddExperience(int exp)
+    {
+        CurrExp += exp;
+        TotalExp += exp;
     }
 
     public void LevelUp()
