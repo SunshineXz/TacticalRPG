@@ -5,6 +5,12 @@ TacticalRPG/[Bb]uild/
 TacticalRPG/[Bb]uilds/
 TacticalRPG/Assets/AssetStoreTools*
 
+/TacticalRPG/Library
+/TacticalRPG/Temp
+/TacticalRPG/Obj
+/TacticalRPG/Build
+/TacticalRPG/Builds
+
 # Visual Studio 2015 cache directory
 TacticalRPG/.vs/
 
@@ -32,10 +38,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-/TacticalRPG/Library
-\TacticalRPG\Temp\
-\TacticalRPG\Obj\
-\TacticalRPG\Build\
-\TacticalRPG\Builds\
+
 
 
