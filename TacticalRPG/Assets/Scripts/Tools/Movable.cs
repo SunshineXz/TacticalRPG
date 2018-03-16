@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Movable : MonoBehaviour {
 
+    [Header("Position")]
     public Vector2 Position;
 
     private void OnValidate()

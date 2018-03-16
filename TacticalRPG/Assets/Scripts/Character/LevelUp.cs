@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class LevelSystem {
     const int MAX_LEVEL = 10;
 
     //Level & Experience
     public int Level;
     public int Experience;
-    public int[] ToLevelUp;
+    int[] ToLevelUp;
 
     Character character;
 
@@ -36,7 +37,7 @@ public class LevelSystem {
     void CheckExperience()
     {
         int ToLevelUpExp = ToLevelUp[Level];
-        while (Experience >= ToLevelUpExp)
+        while (Experience >= ToLevelUpExp && Level < MAX_LEVEL)
         {
             Experience = Experience % ToLevelUpExp;
             LevelUp();

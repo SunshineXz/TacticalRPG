@@ -3,23 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stat : IStat
+#pragma warning disable CS0660 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.Equals(object o)
+#pragma warning disable CS0661 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.GetHashCode()
+public abstract class Stat
+#pragma warning disable CS0660 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.Equals(object o)
+#pragma warning restore CS0661 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.GetHashCode()
 {
-
+    [HideInInspector]
     public string name;
+
+    [SerializeField]
     public int baseValue;
+
+    [HideInInspector]
     public int currentValue;
+
+    [HideInInspector]
     public double jobMultiplier;
 
-    public Stat()
-    {
-        name = "";
-        baseValue = 0;
-        currentValue = 0;
-        jobMultiplier = 0.0;
-    }
-
-    private void updateCurrentValue()
+    protected void updateCurrentValue()
     {
         currentValue = (int)Math.Ceiling((double)baseValue * jobMultiplier);
     }
@@ -100,10 +102,53 @@ public class Stat : IStat
     #endregion
 }
 
-public class HP : Stat { }
-public class Attack : Stat { }
-public class Defense : Stat { }
-public class Speed : Stat { }
+[Serializable]
+public class HP : Stat
+{
+    public HP(int value)
+    {
+        name = "HP";
+        baseValue = value;
+        jobMultiplier = 1.0;
+        updateCurrentValue();
+    }
+}
+
+[Serializable]
+public class Attack : Stat
+{
+    public Attack(int value)
+    {
+        name = "Attack";
+        baseValue = value;
+        jobMultiplier = 1.0;
+        updateCurrentValue();
+    }
+}
+
+[Serializable]
+public class Defense : Stat
+{
+    public Defense(int value)
+    {
+        name = "Defense";
+        baseValue = value;
+        jobMultiplier = 1.0;
+        updateCurrentValue();
+    }
+}
+
+[Serializable]
+public class Speed : Stat
+{
+    public Speed(int value)
+    {
+        name = "Speed";
+        baseValue = value;
+        jobMultiplier = 1.0;
+        updateCurrentValue();
+    }
+}
 
 
 
