@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    static GameManager Instance;
+    static GameManager instance;
     public Character[] characters;
 
     // Use this for initialization
     void Start () {
-        Instance = this;
+        instance = this;
         SortCharacters();
 	}
 	
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 
     static GameManager GetInstance()
     {
-        return Instance;
+        return instance;
     }
 
     public void SortCharacters()
