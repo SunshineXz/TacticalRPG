@@ -1,0 +1,36 @@
+{
+	"jobList":[
+		{
+			"name": "Warrior",
+			"jobLevel": 1, 
+			"hpMultiplier": 1.3,
+			"attackMultiplier": 1.2,
+			"defenseMultiplier": 1.3,
+			"speedMultiplier": 1
+		},
+		{
+			"name": "Mage",
+			"jobLevel": 1, 
+			"hpMultiplier": 1.1,
+			"attackMultiplier": 1.5,
+			"defenseMultiplier": 1,
+			"speedMultiplier": 1.2
+		},
+		{
+			"name": "Rogue",
+			"jobLevel": 1, 
+			"hpMultiplier": 1,
+			"attackMultiplier": 1.2,
+			"defenseMultiplier": 1.1,
+			"speedMultiplier": 1.5
+		},
+		{
+			"name": "Healer",
+			"jobLevel": 1, 
+			"hpMultiplier": 1.3,
+			"attackMultiplier": 1.2,
+			"defenseMultiplier": 1.3,
+			"speedMultiplier": 1
+		}
+	]
+}

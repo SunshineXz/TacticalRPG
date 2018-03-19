@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 [Serializable]
@@ -8,6 +9,8 @@ public class Character : Movable {
 
     [Header("Character Information")]
     public string Name;
+    public Jobs JobName;
+    Job job;
     public LevelSystem levelSystem;
 
     //Fighting Stats
@@ -21,10 +24,11 @@ public class Character : Movable {
     // Use this for initialization
     void Start () {
         levelSystem = new LevelSystem(this);
+        job = GameManager.GetInstance().jobList[(int)JobName]; //TEMP
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         levelSystem.AddExperience(11);
 	}
 }
