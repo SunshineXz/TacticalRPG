@@ -6,20 +6,27 @@ using UnityEngine;
 #pragma warning disable CS0660 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.Equals(object o)
 #pragma warning disable CS0661 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.GetHashCode()
 public abstract class Stat
-#pragma warning disable CS0660 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.Equals(object o)
+#pragma warning restore CS0660 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.Equals(object o)
 #pragma warning restore CS0661 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.GetHashCode()
 {
     [HideInInspector]
     public string name;
 
-    [SerializeField]
+    [HideInInspector]
     public int baseValue;
 
-    [HideInInspector]
+    [SerializeField]
     public int currentValue;
 
     [HideInInspector]
     public double jobMultiplier;
+
+    protected Stat(int value, double multiplier)
+    {
+        baseValue = value;
+        jobMultiplier = multiplier;
+        updateCurrentValue();
+    }
 
     protected void updateCurrentValue()
     {
@@ -105,48 +112,36 @@ public abstract class Stat
 [Serializable]
 public class HP : Stat
 {
-    public HP(int value)
+    public HP(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "HP";
-        baseValue = value;
-        jobMultiplier = 1.0;
-        updateCurrentValue();
     }
 }
 
 [Serializable]
 public class Attack : Stat
 {
-    public Attack(int value)
+    public Attack(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "Attack";
-        baseValue = value;
-        jobMultiplier = 1.0;
-        updateCurrentValue();
     }
 }
 
 [Serializable]
 public class Defense : Stat
 {
-    public Defense(int value)
+    public Defense(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "Defense";
-        baseValue = value;
-        jobMultiplier = 1.0;
-        updateCurrentValue();
     }
 }
 
 [Serializable]
 public class Speed : Stat
 {
-    public Speed(int value)
+    public Speed(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "Speed";
-        baseValue = value;
-        jobMultiplier = 1.0;
-        updateCurrentValue();
     }
 }
 

@@ -8,7 +8,7 @@ public class LevelSystem {
     const int MAX_LEVEL = 10;
 
     //Level & Experience
-    public int Level;
+    public int Level = 1;
     public int Experience;
     int[] ToLevelUp;
 
