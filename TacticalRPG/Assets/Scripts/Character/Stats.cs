@@ -21,6 +21,13 @@ public abstract class Stat
     [HideInInspector]
     public double jobMultiplier;
 
+    protected Stat(int value)
+    {
+        baseValue = value;
+        jobMultiplier = 1.0;
+        updateCurrentValue();
+    }
+
     protected Stat(int value, double multiplier)
     {
         baseValue = value;
@@ -112,6 +119,11 @@ public abstract class Stat
 [Serializable]
 public class HP : Stat
 {
+    public HP(int value) : base(value)
+    {
+        name = "HP";
+    }
+
     public HP(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "HP";
@@ -121,6 +133,11 @@ public class HP : Stat
 [Serializable]
 public class Attack : Stat
 {
+    public Attack(int value) : base(value)
+    {
+        name = "Attack";
+    }
+
     public Attack(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "Attack";
@@ -130,6 +147,11 @@ public class Attack : Stat
 [Serializable]
 public class Defense : Stat
 {
+    public Defense(int value) : base(value)
+    {
+        name = "Defense";
+    }
+
     public Defense(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "Defense";
@@ -139,6 +161,11 @@ public class Defense : Stat
 [Serializable]
 public class Speed : Stat
 {
+    public Speed(int value) : base(value)
+    {
+        name = "Speed";
+    }
+
     public Speed(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
         name = "Speed";

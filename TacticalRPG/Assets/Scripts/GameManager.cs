@@ -8,19 +8,15 @@ public class GameManager : MonoBehaviour {
     const string jobsFile = "Jobs.json";
 
     static GameManager instance;
-    public Character[] characters;
+    public List<Character> characterList;
     public JobList jobList;
 
     private void Awake()
     {
         instance = this;
 
-        string jobsPath = Path.Combine(Application.streamingAssetsPath, jobsFile);
-        if (File.Exists(jobsPath))
-        {
-            string JSON = File.ReadAllText(jobsPath);
-            jobList = JsonUtility.FromJson<JobList>(JSON);
-        }
+        JSONReader.Read(out jobList);
+        JSONReader.Read(out characterList);
     }
 
     // Use this for initialization
@@ -40,6 +36,6 @@ public class GameManager : MonoBehaviour {
 
     public void SortCharacters()
     {
-        Array.Sort(characters, new CharacterSpeedComparer());
+        //Array.Sort(characters, new CharacterSpeedComparer());
     }
 }

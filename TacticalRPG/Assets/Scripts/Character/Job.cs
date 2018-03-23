@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[Serializable]
 public enum Jobs
 {
     Warrior = 0,
@@ -40,4 +41,20 @@ public class JobList
         }
     }
 
+}
+
+public static class JobsHelper
+{
+    public static Jobs getJob(string jobName)
+    {
+        switch (jobName)
+        {
+            case "Warrior": return Jobs.Warrior;
+            case "Mage": return Jobs.Mage;
+            case "Rogue": return Jobs.Rogue;
+            case "Healer": return Jobs.Healer;
+            default: return Jobs.Warrior;
+        }
+            
+    }
 }

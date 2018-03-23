@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movable : MonoBehaviour {
+public abstract class Movable : MonoBehaviour {
 
     [Header("Position")]
     public Vector2 Position;
+
+    protected Movable()
+    {
+        Position = new Vector2(0, 0);
+    }
 
     private void OnValidate()
     {

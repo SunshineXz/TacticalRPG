@@ -1,10 +1,14 @@
 ﻿{
-  "Characters": [
+  "characterList": [
     {
-      "Name": "Noctis",
-      "Level": 1,
-      "Attack": 
+      "name": "Noctis",
+      "job": "Rogue",
+      "level": 1,
+      "experience": 0,
+      "hp": 20,
+      "attack": 10,
+      "defense": 10,
+      "speed":  10
     }
-    ¸
   ]
 }
