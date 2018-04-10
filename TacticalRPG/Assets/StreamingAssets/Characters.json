@@ -8,6 +8,36 @@
       "hp": 20,
       "attack": 10,
       "defense": 10,
+      "speed": 10
+    },
+    {
+      "name": "Lucina",
+      "job": "Mage",
+      "level": 1,
+      "experience": 0,
+      "hp": 20,
+      "attack": 10,
+      "defense": 10,
+      "speed": 10
+    },
+    {
+      "name": "Rufus",
+      "job": "Warrior",
+      "level": 1,
+      "experience": 0,
+      "hp": 20,
+      "attack": 10,
+      "defense": 10,
+      "speed": 10
+    },
+    {
+      "name": "Maria",
+      "job": "Healer",
+      "level": 1,
+      "experience": 0,
+      "hp": 20,
+      "attack": 10,
+      "defense": 10,
       "speed":  10
     }
   ]
