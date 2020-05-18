@@ -8,23 +8,30 @@ public class GameManager : MonoBehaviour {
     const string jobsFile = "Jobs.json";
 
     static GameManager instance;
-    public List<Character> characterList;
-    public JobList jobList;
+    public List<CharacterInfo> charInfoList;
+    public List<Character> characters;
+    public List<Job> jobList;
+
+    public Character charPrefab;
 
     private void Awake()
     {
         instance = this;
 
         JSONReader.Read(out jobList);
-        JSONReader.Read(out characterList);
+        JSONReader.Read(out charInfoList);
     }
 
-    // Use this for initialization
     void Start () {
+        for(var i = 0; i < charInfoList.Count; ++i)
+        {
+            var character = Instantiate(charPrefab, new Vector3(i,0,i), new Quaternion());
+            character.Initialize(charInfoList[i]);
+            characters.Add(character);
+        }
         SortCharacters();
     }
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
@@ -36,6 +43,6 @@ public class GameManager : MonoBehaviour {
 
     public void SortCharacters()
     {
-        //Array.Sort(characters, new CharacterSpeedComparer());
+        characters.Sort(new CharacterSpeedComparer());
     }
 }

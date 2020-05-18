@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.AnimatedValues;
 using UnityEngine;
 
-#pragma warning disable CS0660 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.Equals(object o)
-#pragma warning disable CS0661 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.GetHashCode()
 public abstract class Stat
-#pragma warning restore CS0660 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.Equals(object o)
-#pragma warning restore CS0661 // Le type définit l'opérateur == ou l'opérateur != mais ne se substitue pas à Object.GetHashCode()
 {
     [HideInInspector]
-    public string name;
+    public string statName;
 
     [HideInInspector]
     public int baseValue;
 
-    [SerializeField]
-    public int currentValue;
+    public int currentValue {
+        get { return (int)Math.Ceiling((double)baseValue * jobMultiplier); }
+    }
 
     [HideInInspector]
     public double jobMultiplier;
@@ -25,31 +24,22 @@ public abstract class Stat
     {
         baseValue = value;
         jobMultiplier = 1.0;
-        updateCurrentValue();
     }
 
     protected Stat(int value, double multiplier)
     {
         baseValue = value;
         jobMultiplier = multiplier;
-        updateCurrentValue();
-    }
-
-    protected void updateCurrentValue()
-    {
-        currentValue = (int)Math.Ceiling((double)baseValue * jobMultiplier);
     }
 
     public void upgradeBaseValue(double multiplier)
     {
         baseValue = (int)Math.Ceiling((double)baseValue * multiplier);
-        updateCurrentValue();
     }
 
     public void upgradeBaseValue(int flatValue)
     {
         baseValue += flatValue;
-        updateCurrentValue();
     }
 
     public void changeJobValue(double multiplier)
@@ -121,12 +111,12 @@ public class HP : Stat
 {
     public HP(int value) : base(value)
     {
-        name = "HP";
+        statName = "HP";
     }
 
     public HP(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
-        name = "HP";
+        statName = "HP";
     }
 }
 
@@ -135,12 +125,12 @@ public class Attack : Stat
 {
     public Attack(int value) : base(value)
     {
-        name = "Attack";
+        statName = "Attack";
     }
 
     public Attack(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
-        name = "Attack";
+        statName = "Attack";
     }
 }
 
@@ -149,12 +139,12 @@ public class Defense : Stat
 {
     public Defense(int value) : base(value)
     {
-        name = "Defense";
+        statName = "Defense";
     }
 
     public Defense(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
-        name = "Defense";
+        statName = "Defense";
     }
 }
 
@@ -163,14 +153,32 @@ public class Speed : Stat
 {
     public Speed(int value) : base(value)
     {
-        name = "Speed";
+        statName = "Speed";
     }
 
     public Speed(int value, double jobMultiplier) : base(value, jobMultiplier)
     {
-        name = "Speed";
+        statName = "Speed";
     }
 }
 
+//This needs to be done for each stat individually... if we want it
+[CustomPropertyDrawer(typeof(Stat), true)]
+public class StatInspector : PropertyDrawer
+{
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        EditorGUI.BeginProperty(position, label, property);
+
+        position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+
+        EditorGUI.indentLevel = 0;
+
+        SerializedProperty baseValue = property.FindPropertyRelative("baseValue");
+        SerializedProperty jobMultiplier = property.FindPropertyRelative("jobMultiplier");
 
 
+        EditorGUI.IntField(position, (int)Math.Ceiling((double)baseValue.intValue * jobMultiplier.doubleValue));
+        EditorGUI.EndProperty();
+    }
+}

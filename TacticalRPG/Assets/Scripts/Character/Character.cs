@@ -2,17 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class Character : Movable {
+public class Character : MonoBehaviour {
 
     [Header("Character Information")]
 
-    public string name;
+    public string characterName;
 
     [SerializeField]
-    Jobs jobName = 0;
+    JobType jobName = 0;
 
     [HideInInspector]
     public Job job;
@@ -26,55 +27,44 @@ public class Character : Movable {
     public Defense defense;
     public Speed speed;
 
-    public Character() : base() { }
+    public void Update () {
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            levelSystem.AddExperience(11);
+        }
+    }
 
-    public Character(string name, string jobString, int level, int experience, int hpValue, int attackValue, int defenseValue, int speedValue) : base()
+    public void Initialize(CharacterInfo info)
     {
-        this.name = name;
-        jobName = JobsHelper.getJob(jobString);
+        gameObject.name = info.name;
+        characterName = info.name;
+        jobName = Job.getJob(info.job);
         job = GameManager.GetInstance().jobList[(int)jobName]; //TEMP BEFORE JSONREADER
-        hp = new HP(hpValue, job.hpMultiplier);
-        attack = new Attack(attackValue, job.attackMultiplier);
-        defense = new Defense(defenseValue, job.defenseMultiplier);
-        speed = new Speed(speedValue, job.speedMultiplier);
+        hp = new HP(info.hp, job._hpMultiplier);
+        attack = new Attack(info.attack, job._attackMultiplier);
+        defense = new Defense(info.defense, job._defenseMultiplier);
+        speed = new Speed(info.speed, job._speedMultiplier);
 
-        levelSystem = new LevelSystem(this, level, experience);
+        levelSystem = new LevelSystem(this, info.level, info.experience);
     }
 
-    // Use this for initialization
-    void Start () {
-        levelSystem = new LevelSystem(this);
-        job = GameManager.GetInstance().jobList[(int)jobName]; //TEMP BEFORE JSONREADER
-
-        // TEMP BEFORE JSONREADER
-        hp = new HP(20, job.hpMultiplier);
-        attack = new Attack(20, job.attackMultiplier);
-        defense = new Defense(20, job.defenseMultiplier);
-        speed = new Speed(20, job.speedMultiplier);
-    }
-
-    // Update is called once per frame
-    void Update () {
-        levelSystem.AddExperience(11);
-	}
-
-    public void changeJob(Jobs jobName)
+    public void changeJob(JobType jobName)
     {
         this.jobName = jobName;
         job = GameManager.GetInstance().jobList[(int)jobName];
-        hp.changeJobValue(job.hpMultiplier);
-        attack.changeJobValue(job.attackMultiplier);
-        defense.changeJobValue(job.defenseMultiplier);
-        speed.changeJobValue(job.speedMultiplier);
+        hp.changeJobValue(job._hpMultiplier);
+        attack.changeJobValue(job._attackMultiplier);
+        defense.changeJobValue(job._defenseMultiplier);
+        speed.changeJobValue(job._speedMultiplier);
     }
 }
 
 [Serializable]
 public class JSONCharacterList
 {
-    public JSONCharacter[] characterList;
+    public CharacterInfo[] characterList;
 
-    public JSONCharacter this[int key]
+    public CharacterInfo this[int key]
     {
         get
         {
@@ -82,19 +72,14 @@ public class JSONCharacterList
         }
     }
 
-    public List<Character> toCharacterList()
+    public List<CharacterInfo> toCharacterList()
     {
-        List<Character> characters = new List<Character>();
-        foreach(JSONCharacter c in characterList)
-        {
-            characters.Add(c.ToCharacter());
-        }
-        return characters;
+        return characterList.ToList();
     }
 }
 
 [Serializable]
-public class JSONCharacter
+public class CharacterInfo
 {
     public string name;
     public string job;
@@ -104,9 +89,4 @@ public class JSONCharacter
     public int attack;
     public int defense;
     public int speed;
-
-    public Character ToCharacter()
-    {
-        return new Character(name, job, level, experience, hp, attack, defense, speed); ;
-    }
 }

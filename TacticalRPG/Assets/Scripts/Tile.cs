@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : Movable {
+public class Tile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
@@ -58,16 +58,6 @@ public class Tile : Movable {
 
     private void OnTileClicked()
     {
-        //Debug.Log("Tile Clicked: (" + gridPosition.x + ", " + gridPosition.y + ")");
-
-        //if (GameManager.instance.isPlayerMoving())
-        //{
-        //    GameManager.instance.moveCurrentPlayer(this);
-        //}
-        //else if (GameManager.instance.isPlayerAttacking())
-        //{
-        //    GameManager.instance.moveCurrentPlayer(this);
-        //}
         ChangeColor(Color.green);
     }
 
