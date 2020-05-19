@@ -3,20 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static CharacterTargetSystem;
 
 public class GameManager : MonoBehaviour {
-    const string jobsFile = "Jobs.json";
 
     static GameManager instance;
+
     public List<CharacterInfo> charInfoList;
     public List<Character> characters;
     public List<Job> jobList;
 
     public Character charPrefab;
 
+    public CharacterTargetSystem characterTargetSystem;
+
     private void Awake()
     {
         instance = this;
+
+        characterTargetSystem = GetComponent<CharacterTargetSystem>();
 
         JSONReader.Read(out jobList);
         JSONReader.Read(out charInfoList);
@@ -31,10 +36,6 @@ public class GameManager : MonoBehaviour {
         }
         SortCharacters();
     }
-	
-	void Update () {
-		
-	}
 
     public static GameManager GetInstance()
     {
@@ -44,5 +45,10 @@ public class GameManager : MonoBehaviour {
     public void SortCharacters()
     {
         characters.Sort(new CharacterSpeedComparer());
+    }
+
+    public TargetState GetState()
+    {
+        return characterTargetSystem.currentState;
     }
 }

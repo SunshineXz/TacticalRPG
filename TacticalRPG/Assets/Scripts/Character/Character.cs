@@ -27,8 +27,20 @@ public class Character : MonoBehaviour {
     public Defense defense;
     public Speed speed;
 
+    private GameManager manager;
+
+    public void Start()
+    {
+        manager = GameManager.GetInstance();
+    }
+
     public void Update () {
-        if(Input.GetKeyDown(KeyCode.L))
+        if (manager.GetState() == CharacterTargetSystem.TargetState.Normal)
+        {
+            CheckRayCast();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
         {
             levelSystem.AddExperience(11);
         }
@@ -56,6 +68,49 @@ public class Character : MonoBehaviour {
         attack.changeJobValue(job._attackMultiplier);
         defense.changeJobValue(job._defenseMultiplier);
         speed.changeJobValue(job._speedMultiplier);
+    }
+
+    public void MoveToTile(Tile tile)
+    {
+        transform.position = new Vector3(tile.transform.position.x, transform.position.y, tile.transform.position.z);
+        tile.ChangeColor(Color.white);
+    }
+
+    void CheckRayCast()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit info;
+        Collider coll = GetComponent<Collider>();
+        if (coll.Raycast(ray, out info, 20))
+        {
+            if (Input.GetMouseButton(0))
+            {
+                OnTileClicked();
+            }
+            else
+            {
+                OnTileHovered();
+            }
+        }
+        else
+        {
+            ChangeColor(Color.white);
+        }
+    }
+
+    private void OnTileHovered()
+    {
+        ChangeColor(Color.blue);
+    }
+
+    private void OnTileClicked()
+    {
+        ChangeColor(Color.green);
+    }
+
+    public void ChangeColor(Color color)
+    {
+        gameObject.GetComponent<Renderer>().material.color = color;
     }
 }
 

@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
-	
-	// Update is called once per frame
-	void Update () {
-        //if (GameManager.GetInstance().isPlayerTurn())
-        //{
+public class Tile : MonoBehaviour
+{
+    private GameManager manager;
+
+    public void Start()
+    {
+        manager = GameManager.GetInstance();
+    }
+
+    void Update () 
+    {
+        if (manager.GetState() == CharacterTargetSystem.TargetState.CharacterSelected)
+        {
             CheckRayCast();
-        //}
+        }
     }
 
     void CheckRayCast()
@@ -36,23 +43,6 @@ public class Tile : MonoBehaviour {
 
     private void OnTileHovered()
     {
-        //TESTS
-        //GameManager.instance.characters[GameManager.instance.currentPlayerIndex].moving = false;
-        //GameManager.instance.characters[GameManager.instance.currentPlayerIndex].attacking = true;
-
-        //if (GameManager.instance.isPlayerMoving())
-        //{
-        //    ChangeColor(Color.blue);
-        //}
-        //else if (GameManager.instance.isPlayerAttacking())
-        //{
-        //    ChangeColor(Color.red);
-        //}
-        //else
-        //{
-        //    ChangeColor(Color.black);
-        //}
-
         ChangeColor(Color.blue);
     }
 
