@@ -29,6 +29,8 @@ public class Character : MonoBehaviour {
 
     private GameManager manager;
 
+    private HexCell _tile;
+
     public void Start()
     {
         manager = GameManager.GetInstance();
@@ -69,9 +71,16 @@ public class Character : MonoBehaviour {
         defense.changeJobValue(job._defenseMultiplier);
         speed.changeJobValue(job._speedMultiplier);
     }
-
-    public void MoveToTile(Tile tile)
+   
+    public void MoveToTile(HexCell tile)
     {
+        if(_tile != null)
+        {
+            _tile.Chararacter = null;
+        }
+
+        _tile = tile;
+        _tile.Chararacter = this;
         transform.position = new Vector3(tile.transform.position.x, transform.position.y, tile.transform.position.z);
         tile.ChangeColor(Color.white);
     }
@@ -81,7 +90,7 @@ public class Character : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit info;
         Collider coll = GetComponent<Collider>();
-        if (coll.Raycast(ray, out info, 20))
+        if (coll.Raycast(ray, out info, 100))
         {
             if (Input.GetMouseButton(0))
             {

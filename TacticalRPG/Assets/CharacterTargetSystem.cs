@@ -41,7 +41,7 @@ public class CharacterTargetSystem : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit info;
-        if (Physics.Raycast(ray, out info, 100, characterMask))
+        if (Physics.Raycast(ray, out info, 1000, characterMask))
         {
             var character = info.collider.gameObject.GetComponent<Character>();
             if (Input.GetMouseButtonUp(0) && character != null)
@@ -55,12 +55,15 @@ public class CharacterTargetSystem : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit info;
-        if (Physics.Raycast(ray, out info, 100, tileMask))
+        if (Physics.Raycast(ray, out info, 1000, tileMask))
         {
-            var tile = info.collider.gameObject.GetComponent<Tile>();
-            if (Input.GetMouseButtonUp(0) && tile != null)
+            var tile = info.collider.gameObject.GetComponent<HexCell>();
+            if (Input.GetMouseButtonUp(0))
             {
-                OnTileClicked(tile);
+                if (tile != null && tile.Chararacter == null)
+                {
+                    OnTileClicked(tile);
+                }
             }
         }
     }
@@ -71,8 +74,9 @@ public class CharacterTargetSystem : MonoBehaviour
         selectedCharacter = character;
     }
 
-    private void OnTileClicked(Tile tile)
+    private void OnTileClicked(HexCell tile)
     {
+        tile.character = selectedCharacter;
         selectedCharacter.MoveToTile(tile);
         selectedCharacter = null;
 
