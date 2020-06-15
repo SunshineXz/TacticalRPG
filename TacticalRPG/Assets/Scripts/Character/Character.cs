@@ -128,7 +128,6 @@ public class Character : MonoBehaviour {
     {
         _tile.State = HexCell.TileState.ShowingRange;
         ChangeColor(Color.green);
-        GameManager.GetInstance().Triangulate();
     }
 
     public void ChangeColor(Color color)
