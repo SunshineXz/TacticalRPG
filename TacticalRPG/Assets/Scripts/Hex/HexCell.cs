@@ -1,8 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class HexCell : MonoBehaviour {
-
+    public enum TileState
+    {
+        None,
+        ShowingRange
+    }
 	public HexCoordinates coordinates;
 
 	public Color color;
@@ -13,6 +18,8 @@ public class HexCell : MonoBehaviour {
 
     [SerializeField]
 	HexCell[] neighbors;
+
+    public TileState State;
 
 	public HexCell GetNeighbor (HexDirection direction) {
 		return neighbors[(int)direction];
@@ -28,51 +35,57 @@ public class HexCell : MonoBehaviour {
         manager = GameManager.GetInstance();
     }
 
-    public void Update()
+    public Character Chararacter { get; internal set; }
+
+    private void OnMouseOver()
     {
         if (manager.GetState() == CharacterTargetSystem.TargetState.CharacterSelected)
         {
-            CheckRayCast();
+            ChangeColor(new Color(0, 0.5f, 1));
         }
     }
 
-    public Character Chararacter { get; internal set; }
-
-    void CheckRayCast()
+    private void OnMouseExit()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit info;
-        Collider coll = GetComponent<Collider>();
-        if (coll.Raycast(ray, out info, 1000))
+        if (manager.GetState() == CharacterTargetSystem.TargetState.CharacterSelected)
         {
-            if (Input.GetMouseButton(0))
+            switch(State)
             {
-                OnTileClicked();
-            }
-            else
-            {
-                OnTileHovered();
+                case TileState.None:
+                    ChangeColor(Color.white);
+                    break;
+                case TileState.ShowingRange:
+                    ChangeColor(new Color(0, 1, 0.5f));
+                    break;
             }
         }
-        else
-        {
-            ChangeColor(Color.white);
-        }
-    }
-
-    private void OnTileHovered()
-    {
-        ChangeColor(new Color(0,0.5f,1));
-    }
-
-    private void OnTileClicked()
-    {
-        ChangeColor(new Color(0, 1, 0.5f, 1));
     }
 
     public void ChangeColor(Color c)
     {
         color = c;
-        GameManager.GetInstance().Triangulate();
+    }
+
+    public void ShowPossibleMoves(int depth)
+    {
+        if(State != TileState.ShowingRange)
+        {
+            ChangeColor(new Color(0, 1, 0.5f, 1));
+            State = HexCell.TileState.ShowingRange;
+        }
+
+        if (depth == 0)
+        {
+            return;
+        }
+
+        foreach (HexDirection direction in Enum.GetValues(typeof(HexDirection)))
+        {
+            var neighbor = GetNeighbor(direction);
+            if (neighbor != null)
+            {
+                neighbor.ShowPossibleMoves(depth - 1);
+            }
+        }
     }
 }

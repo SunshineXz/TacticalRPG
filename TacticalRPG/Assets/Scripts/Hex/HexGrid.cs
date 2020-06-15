@@ -29,7 +29,6 @@ public class HexGrid : MonoBehaviour {
 				CreateCell(x, z, i++);
 			}
 		}
-
 	}
 
 	void Start () {
@@ -88,5 +87,15 @@ public class HexGrid : MonoBehaviour {
 	public void Triangulate()
 	{
 		hexMesh.Triangulate(cells);
+	}
+
+	public void Reset()
+	{
+		foreach(var cell in cells)
+		{
+			cell.State = HexCell.TileState.None;
+			cell.color = Color.white;
+		}
+		Triangulate();
 	}
 }

@@ -72,14 +72,20 @@ public class CharacterTargetSystem : MonoBehaviour
     {
         currentState = TargetState.CharacterSelected;
         selectedCharacter = character;
+
+        character.ShowPossibleMoves();
+        GameManager.GetInstance().Triangulate();
     }
 
     private void OnTileClicked(HexCell tile)
     {
-        tile.character = selectedCharacter;
-        selectedCharacter.MoveToTile(tile);
-        selectedCharacter = null;
+        if(tile.State == HexCell.TileState.ShowingRange)
+        {
+            tile.character = selectedCharacter;
+            selectedCharacter.MoveToTile(tile);
+            selectedCharacter = null;
 
-        currentState = TargetState.Normal;
+            currentState = TargetState.Normal;
+        }
     }
 }

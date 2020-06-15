@@ -26,6 +26,7 @@ public class Character : MonoBehaviour {
     public Attack attack;
     public Defense defense;
     public Speed speed;
+    public int moveRange = 3;
 
     private GameManager manager;
 
@@ -71,7 +72,18 @@ public class Character : MonoBehaviour {
         defense.changeJobValue(job._defenseMultiplier);
         speed.changeJobValue(job._speedMultiplier);
     }
-   
+
+    public void ShowPossibleMoves()
+    {
+        for (int i = 0; i < moveRange; ++i)
+        {
+            foreach (HexDirection direction in Enum.GetValues(typeof(HexDirection)))
+            {
+                _tile.ShowPossibleMoves(moveRange - i);
+            }
+        }
+    }
+
     public void MoveToTile(HexCell tile)
     {
         if(_tile != null)
@@ -82,7 +94,7 @@ public class Character : MonoBehaviour {
         _tile = tile;
         _tile.Chararacter = this;
         transform.position = new Vector3(tile.transform.position.x, transform.position.y, tile.transform.position.z);
-        tile.ChangeColor(Color.white);
+        GameManager.GetInstance().ResetGrid();
     }
 
     void CheckRayCast()
@@ -94,11 +106,11 @@ public class Character : MonoBehaviour {
         {
             if (Input.GetMouseButton(0))
             {
-                OnTileClicked();
+                OnCharacterClicked();
             }
             else
             {
-                OnTileHovered();
+                OnCharacterHovered();
             }
         }
         else
@@ -107,14 +119,16 @@ public class Character : MonoBehaviour {
         }
     }
 
-    private void OnTileHovered()
+    private void OnCharacterHovered()
     {
         ChangeColor(Color.blue);
     }
 
-    private void OnTileClicked()
+    private void OnCharacterClicked()
     {
+        _tile.State = HexCell.TileState.ShowingRange;
         ChangeColor(Color.green);
+        GameManager.GetInstance().Triangulate();
     }
 
     public void ChangeColor(Color color)

@@ -73,4 +73,9 @@ public class GameManager : MonoBehaviour {
     {
         tiles = cells.ToList();
     }
+
+    public void ResetGrid()
+    {
+        grid.Reset();
+    }
 }
